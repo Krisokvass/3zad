@@ -1,0 +1,82 @@
+html<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вычисление тригонометрических функций</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Вычисление тригонометрических функций</h1>
+    <form id="trigForm">
+        <label for="angle">Введите угол (в градусах):</label>
+        <input type="text" id="angle" oninput="validateInput()" />
+        <span class="error" id="inputError"></span>
+        <br /><br />
+        <button type="button" onclick="calculateTrigFunctions()">Вычислить</button>
+    </form>
+
+    <h2>Результаты:</h2>
+    <div id="results"></div>
+    
+    <script>
+        function validateInput() {
+            const angleInput = document.getElementById('angle');
+            const errorMsg = document.getElementById('inputError');
+
+            const angle = angleInput.value;
+            if (angle === '' || isNaN(angle)) {
+                errorMsg.textContent = 'Введите валидное число!';
+            } else {
+                errorMsg.textContent = '';
+            }
+        }
+
+        function calculateTrigFunctions() {
+            const angleInput = document.getElementById('angle');
+            const resultsDiv = document.getElementById('results');
+            const errorMsg = document.getElementById('inputError');
+
+            const angle = parseFloat(angleInput.value);
+
+            // Проверка на наличие ошибок
+            if (isNaN(angle)) {
+                errorMsg.textContent = 'Введите валидное число!';
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            // Переводим угол в радианы
+            const radians = angle * (Math.PI / 180);
+
+            // Вычисляем тригонометрические функции
+            const sinValue = Math.sin(radians);
+            const cosValue = Math.cos(radians);
+            const tanValue = Math.tan(radians);
+            const secValue = 1 / cosValue;
+            const cscValue = 1 / sinValue;
+            const cotValue = 1 / tanValue;
+
+            // Отображаем результаты
+            resultsDiv.innerHTML = \
+                <p>sin(${angle}) = ${sinValue.toFixed(4)}</p>
+                <p>cos(${angle}) = ${cosValue.toFixed(4)}</p>
+                <p>tan(${angle}) = ${tanValue.toFixed(4)}</p>
+                <p>sec(${angle}) = ${secValue.toFixed(4)} (если cos ≠ 0)</p>
+                <p>csc(${angle}) = ${cscValue.toFixed(4)} (если sin ≠ 0)</p>
+                <p>cot(${angle}) = ${cotValue.toFixed(4)} (если tan ≠ 0)</p>
+            \;
+        }
+    </script>
+</body>
+</html>
